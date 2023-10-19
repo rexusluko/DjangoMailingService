@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    command: bash entrypoint.sh
+    volumes:
+      - MailingService:/MailingService
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - celery
+  db:
+    image: postgres:12
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+  rabbit:
+    hostname: rabbit
+    image: "rabbitmq:management"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+  celery:
+    build: .
+    command: bash celery-entrypoint.sh
+    depends_on:
+      - rabbit
+      - db
+    env_file:
+      - .env
+
+volumes:
+  postgres_data:
+  MailingService:
