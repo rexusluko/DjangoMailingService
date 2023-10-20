@@ -21,8 +21,11 @@ from app.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/clients/', ClientAPIList.as_view()),
+    path('api/v1/clients/filter/', FilteredClientAPIList.as_view()),
     path('api/v1/clientsdetail/<slug:pk>', ClientAPIDetailView.as_view()),
     path('api/v1/mailings/', MailingAPIList.as_view()),
     path('api/v1/mailingsdetail/<slug:pk>', MailingAPIDetailView.as_view()),
-    path('api/v1/mailings/stats', MailingStatsView.as_view()),
+    path('api/v1/mailings/stats', MailingStatsList.as_view()),
+    path('api/v1/messages/',MessageAPIList.as_view()),
+    path('api/v1/messages/create/',CreateMessageAPIView.as_view()),
 ]

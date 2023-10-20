@@ -10,7 +10,7 @@ services:
       - "8000:8000"
     depends_on:
       - db
-      - celery
+      - celery-worker
   db:
     image: postgres:12
     environment:
@@ -31,12 +31,24 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
-  celery:
+  celery-worker:
     build: .
+    restart: always
     command: bash celery-entrypoint.sh
     depends_on:
       - rabbit
       - db
+    env_file:
+      - .env
+
+  celery-beats:
+    build: .
+    restart: always
+    command: bash celery-beats-entrypoint.sh
+    depends_on:
+      - rabbit
+      - db
+      - web
     env_file:
       - .env
 

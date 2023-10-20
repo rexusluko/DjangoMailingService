@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 import uuid
+from django.utils import timezone
 
 
 class Client(models.Model):
@@ -29,10 +30,10 @@ class Mailing(models.Model):
 
 class Message(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    creation_time = models.DateTimeField(blank=False, null=False)
-    status = models.CharField(blank=False, null=False)
+    creation_time = models.DateTimeField(default=timezone.now,blank=False, null=False)
+    status = models.CharField(default="Не отправлено",blank=False, null=False)
     mailing = models.ForeignKey(Mailing, on_delete=models.CASCADE)
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.id
+        return str(self.id)

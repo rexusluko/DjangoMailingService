@@ -1,7 +1,6 @@
 from django.utils import timezone
 from rest_framework import serializers
-from .models import Client, Mailing
-
+from .models import Client, Mailing, Message
 
 
 class ClientSerializer(serializers.ModelSerializer):
@@ -16,7 +15,7 @@ class MailingSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class MailingStatSerializer(serializers.ModelSerializer):
+class MailingStatsSerializer(serializers.ModelSerializer):
     total_messages = serializers.IntegerField()
     status = serializers.SerializerMethodField()
 
@@ -32,3 +31,14 @@ class MailingStatSerializer(serializers.ModelSerializer):
             return "Завершена"
         else:
             return "В процессе"
+
+
+class CreateMessageSerializer(serializers.Serializer):
+    mailing_id = serializers.UUIDField()
+    client_id = serializers.UUIDField()
+
+class MessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Message
+        fields = '__all__'
+
