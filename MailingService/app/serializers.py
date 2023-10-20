@@ -24,7 +24,6 @@ class MailingStatsSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def get_status(self, mailing):
-
         if mailing.start_time > timezone.now():
             return "Ожидает начала"
         elif mailing.end_time < timezone.now():
@@ -34,11 +33,37 @@ class MailingStatsSerializer(serializers.ModelSerializer):
 
 
 class CreateMessageSerializer(serializers.Serializer):
-    mailing_id = serializers.UUIDField()
-    client_id = serializers.UUIDField()
+    mailing_id = serializers.IntegerField()
+    client_id = serializers.IntegerField()
 
-class MessageSerializer(serializers.ModelSerializer):
+
+class MessageFullSerializer(serializers.ModelSerializer):
+    mailing = MailingSerializer()  # Вложенный сериализатор для Mailing
+    client = ClientSerializer()  # Вложенный сериализатор для Client
+
     class Meta:
         model = Message
         fields = '__all__'
 
+
+class MessageDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Message
+        exclude = ['mailing', 'client', 'creation_time']
+
+
+class MessageFullSerializer(serializers.ModelSerializer):
+    mailing = MailingSerializer()  # Вложенный сериализатор для Mailing
+    client = ClientSerializer()  # Вложенный сериализатор для Client
+
+    class Meta:
+        model = Message
+        fields = '__all__'
+
+
+class MailingFullStatSerializer(serializers.ModelSerializer):
+    messages = MessageFullSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Mailing
+        fields = '__all__'

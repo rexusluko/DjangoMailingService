@@ -26,6 +26,7 @@ urlpatterns = [
     path('api/v1/mailings/', MailingAPIList.as_view()),
     path('api/v1/mailingsdetail/<slug:pk>', MailingAPIDetailView.as_view()),
     path('api/v1/mailings/stats', MailingStatsList.as_view()),
-    path('api/v1/messages/',MessageAPIList.as_view()),
-    path('api/v1/messages/create/',CreateMessageAPIView.as_view()),
+    path('api/v1/messages/', MessageAPIList.as_view()),
+    path('api/v1/messages/create/', CreateMessageAPIView.as_view()),
+    path('api/v1/messagesdetail/<slug:pk>', MessageDetailAPIView.as_view()),
 ]

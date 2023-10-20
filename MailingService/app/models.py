@@ -5,7 +5,7 @@ from django.utils import timezone
 
 
 class Client(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.AutoField(primary_key=True)
     phone = models.CharField(max_length=10, unique=True)  # Номер телефона в формате 7XXXXXXXXXX
     mobile_operator_code = models.CharField(max_length=3)
     tag = models.CharField(max_length=255)  # Произвольная метка
@@ -17,7 +17,7 @@ class Client(models.Model):
 
 # Create your models here.
 class Mailing(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.AutoField(primary_key=True)
     start_time = models.DateTimeField(blank=False, null=False)
     text = models.CharField(blank=False, null=False)
     mobile_operator_filter = models.CharField(max_length=3, null=True)
@@ -29,7 +29,7 @@ class Mailing(models.Model):
 
 
 class Message(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.AutoField(primary_key=True)
     creation_time = models.DateTimeField(default=timezone.now,blank=False, null=False)
     status = models.CharField(default="Не отправлено",blank=False, null=False)
     mailing = models.ForeignKey(Mailing, on_delete=models.CASCADE)
