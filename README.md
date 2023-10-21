@@ -6,7 +6,7 @@ POSTGRES_USER = example_user
 POSTGRES_PASSWORD = example_password
 RABBITMQ_DEFAULT_USER = example_rabbit_user
 RABBITMQ_DEFAULT_PASS = example_rabbit_password
-TOKEN = example_token_for_external service
+TOKEN = example_token_for_external_service
 ```
 Данные из примера нужно заменить на свои
 # Запуск приложения
