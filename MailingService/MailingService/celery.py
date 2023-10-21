@@ -1,8 +1,6 @@
 import os
-from datetime import datetime
 
 from celery import Celery
-from celery.schedules import crontab
 import requests
 from decouple import config
 

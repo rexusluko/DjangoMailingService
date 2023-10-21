@@ -1,13 +1,8 @@
 from django.db.models import Count
-from django.shortcuts import render
-from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, status
-from .models import *
 from .serializers import *
 from rest_framework.response import Response
 
-
-# Create your views here.
 
 class ClientAPIList(generics.ListCreateAPIView):
     """Возвращает список пользователей или добавляет нового"""
