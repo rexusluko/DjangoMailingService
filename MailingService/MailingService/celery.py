@@ -64,7 +64,7 @@ def send_messages():
                     'text': message['mailing']['text']}
             send_message_response = requests.post(send_message_url, data=data, headers=headers, timeout=10)
             if send_message_response.status_code == 200:  # Если сообщение отправилось за 10 секунд, то меняем статус сообщения
-                update_status_url = f"http://web:8000/api/v1/messagesdetail/{message['id']}"
+                update_status_url = f"http://web:8000/api/v1/messages/status/{message['id']}"
                 update_message_response = requests.patch(url=update_status_url, data={'status': "Отправлено"})
                 if update_message_response.status_code != 200:  # Проверяем успешность запроса
                     print(f"Update Status Request failed with status code: {update_message_response.status_code}")

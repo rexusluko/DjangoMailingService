@@ -46,24 +46,17 @@ class MessageFullSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class MessageDetailSerializer(serializers.ModelSerializer):
+class MessageStatusSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
         exclude = ['mailing', 'client', 'creation_time']
 
 
-class MessageFullSerializer(serializers.ModelSerializer):
-    mailing = MailingSerializer()  # Вложенный сериализатор для Mailing
-    client = ClientSerializer()  # Вложенный сериализатор для Client
-
+class MessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
-        fields = '__all__'
+        fields = ['id', 'creation_time', 'status', 'client']
 
 
-class MailingFullStatSerializer(serializers.ModelSerializer):
-    messages = MessageFullSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = Mailing
-        fields = '__all__'
+class MailingFullStatsSerializer(MailingStatsSerializer):
+    messages = MessageSerializer(many=True, read_only=True)

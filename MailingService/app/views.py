@@ -34,16 +34,18 @@ class MailingAPIList(generics.ListCreateAPIView):
     serializer_class = MailingSerializer
 
 
-class MailingAPIDetailView(generics.RetrieveUpdateDestroyAPIView):
-    """Вовзращает, обновляет или удаляет конкретную рассылку"""
-    queryset = Mailing.objects.all()
-    serializer_class = MailingFullStatSerializer
+class MailingFullStatView(generics.RetrieveAPIView):
+    """Вовзращает полную статистику конкретной рассылки"""
+    queryset = Mailing.objects.annotate(
+        total_messages=Count('messages')
+    )
+    serializer_class = MailingFullStatsSerializer
 
 
 class MailingStatsList(generics.ListAPIView):
     """Возвращает список рассылок с количеством отправленных сообщений и текущим статусом"""
     queryset = Mailing.objects.annotate(
-        total_messages=Count('message')
+        total_messages=Count('messages')
     )
     serializer_class = MailingStatsSerializer
 
@@ -74,8 +76,8 @@ class MessageAPIList(generics.ListAPIView):
     queryset = Message.objects.all()
     serializer_class = MessageFullSerializer
 
-class MessageDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
-    """Обновляет данные сообщения"""
-    queryset = Message.objects.all()
-    serializer_class = MessageDetailSerializer
 
+class MessageStatusAPIView(generics.RetrieveUpdateAPIView):
+    """Просматривае или обновляет статус сообщения"""
+    queryset = Message.objects.all()
+    serializer_class = MessageStatusSerializer
